@@ -55,10 +55,11 @@ f3 xs = 0 : xs
 -}
 
 addOne :: [Integer] -> [Integer]
-addOne x =  
+addOne [] = []
+addOne (x:xs)  = (x + 1:addOne xs) 
 
 f4 :: [Integer] -> [Integer]
-f4 ys = 0 : addOne ys
+f4 ys = addOne ys
 
 {-
      fix f4
@@ -68,10 +69,14 @@ f4 ys = 0 : addOne ys
 -}
 
 bs :: [Integer]
-bs = undefined
+bs = 0 : addOne bs 
+   
 
 approxL :: Integer -> ([a] -> [a]) -> [a]
-approxL n f = undefined
+approxL n f | n > 0     = approxL (n - 1) f
+            | otherwise = fix f
+            
+
 
 f5 :: [Integer] -> [Integer]
 f5 xs = 1:2:3:xs
@@ -80,7 +85,8 @@ f5 xs = 1:2:3:xs
 ------------------------- Exercise 3
 
 f6 :: (Integer -> Integer) -> (Integer -> Integer)
-f6 g n = undefined
+f6 g n | n <= 1    = 1
+       | otherwise = f6 (g * n) (n - 1)
 
 {-
      (fix f6) 3
